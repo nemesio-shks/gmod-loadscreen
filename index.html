@@ -6,22 +6,23 @@
 <style>
 @font-face{font-family:'Orbitron';font-weight:500;src:url(fonts/orbitron-500.ttf) format('truetype')}
 @font-face{font-family:'Orbitron';font-weight:900;src:url(fonts/orbitron-900.ttf) format('truetype')}
-@font-face{font-family:'Exo2';font-weight:400;src:url(fonts/exo2-400.ttf) format('truetype')}
 
-html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#000;color:#dff6ff;font-family:'Exo2',Arial,sans-serif;-webkit-user-select:none;user-select:none}
+html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#05080a;color:#e8e2d0;font-family:'Trebuchet MS',Tahoma,Arial,sans-serif;-webkit-user-select:none;user-select:none}
 .abs{position:absolute;left:0;top:0;width:100%;height:100%}
 
-/* фон */
-.slide{position:absolute;left:-5%;top:-5%;width:110%;height:110%;background-size:cover;background-position:center;opacity:0;-webkit-transition:opacity 2.5s;transition:opacity 2.5s}
-.slide.on{opacity:.45}
-#tint{background:radial-gradient(ellipse at center,rgba(0,0,0,.2),rgba(0,0,0,.85) 80%)}
+/* фон: холодный City 17 */
+.slide{position:absolute;left:-5%;top:-5%;width:110%;height:110%;background-size:cover;background-position:center;opacity:0;
+ -webkit-filter:grayscale(.7) contrast(1.1);filter:grayscale(.7) contrast(1.1);-webkit-transition:opacity 2.5s;transition:opacity 2.5s}
+.slide.on{opacity:.5}
+#tint{background:linear-gradient(180deg,rgba(20,45,50,.35),rgba(5,10,12,.55)),radial-gradient(ellipse at center,transparent 30%,rgba(0,0,0,.85) 85%)}
+#lines{background:repeating-linear-gradient(180deg,rgba(255,255,255,.025) 0,rgba(255,255,255,.025) 1px,transparent 1px,transparent 4px);pointer-events:none}
 
 /* интро */
-#intro{z-index:10;background:#000;text-align:center}
+#intro{z-index:10;background:#05080a;text-align:center}
 #intro.out{-webkit-transition:opacity .5s;transition:opacity .5s;opacity:0}
 .mid{position:absolute;left:0;right:0;top:50%;-webkit-transform:translateY(-60%);transform:translateY(-60%);text-align:center}
-.nexus{font-family:'Orbitron';font-weight:900;font-size:17vw;letter-spacing:1.5vw;padding-left:1.5vw;color:#fff;line-height:1;text-shadow:0 0 25px rgba(0,229,255,.7)}
-.reborn{font-family:'Orbitron';font-weight:500;font-size:4vw;letter-spacing:2.5vw;padding-left:2.5vw;color:#00e5ff;margin-top:1.5vw;text-shadow:0 0 12px #00e5ff}
+.nexus{font-family:'Orbitron';font-weight:900;font-size:17vw;letter-spacing:1.5vw;padding-left:1.5vw;color:#ece6d6;line-height:1;text-shadow:0 0 30px rgba(255,190,60,.35),0 .4vw 0 rgba(0,0,0,.5)}
+.reborn{font-family:'Orbitron';font-weight:500;font-size:4vw;letter-spacing:2.5vw;padding-left:2.5vw;color:#ffc840;margin-top:1.5vw;text-shadow:0 0 14px rgba(255,180,40,.6)}
 #intro .nexus{opacity:0;-webkit-animation:fadeup .5s ease forwards;animation:fadeup .5s ease forwards}
 #intro .reborn{opacity:0;letter-spacing:6vw;-webkit-animation:spread .6s .4s ease forwards;animation:spread .6s .4s ease forwards}
 @-webkit-keyframes fadeup{from{opacity:0;-webkit-transform:translateY(20px);-webkit-filter:blur(10px)}to{opacity:1;-webkit-transform:none;-webkit-filter:blur(0)}}
@@ -32,39 +33,45 @@ html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#000;color:
 /* основной */
 #main{opacity:0;-webkit-transition:opacity .5s;transition:opacity .5s}
 #main.on{opacity:1}
-#info{margin-top:2vw;font-size:1.6vw;opacity:.6;letter-spacing:1px}
-#load{position:absolute;left:15%;right:15%;bottom:70px}
-#status{font-size:14px;opacity:.7;margin-bottom:8px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-#bar{height:4px;background:rgba(255,255,255,.1)}
-#fill{height:100%;width:0;background:#00e5ff;box-shadow:0 0 10px #00e5ff;-webkit-transition:width .4s;transition:width .4s}
+.hud{background:rgba(0,0,0,.4);border-radius:8px;color:#ffd04a}
+.lbl{font-size:12px;font-weight:bold;letter-spacing:2px;text-transform:uppercase;color:rgba(255,208,74,.75)}
+#info{display:inline-block;margin-top:2.2vw;padding:10px 22px;font-size:1.4vw;letter-spacing:1px}
+#info:empty{display:none}
+#load{position:absolute;left:15%;right:15%;bottom:60px;padding:14px 18px}
+#loadTop{overflow:hidden;margin-bottom:10px}
+#status{float:left;max-width:85%;font-size:14px;color:#e8e2d0;opacity:.85;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+#pct{float:right;font-size:14px;font-weight:bold}
+#segs{height:10px;font-size:0;white-space:nowrap}
+#segs i{display:inline-block;height:10px;margin-right:0.5%;background:rgba(255,208,74,.15);-webkit-transition:background .3s;transition:background .3s}
+#segs i.on{background:#ffd04a;box-shadow:0 0 6px rgba(255,208,74,.6)}
 
 /* звук */
-#snd{position:absolute;right:30px;top:26px;z-index:20;font-size:13px;opacity:.7}
-#snd:hover{opacity:1}
-#mute{display:inline-block;cursor:pointer;width:20px;color:#00e5ff;vertical-align:middle}
+#snd{position:absolute;right:30px;top:26px;z-index:20;padding:8px 12px;font-size:13px}
+#mute{display:inline-block;cursor:pointer;width:22px;vertical-align:middle;font-size:15px}
 #vol{display:inline-block;position:relative;width:110px;height:16px;vertical-align:middle;cursor:pointer}
-#vol i{position:absolute;left:0;right:0;top:7px;height:2px;background:rgba(255,255,255,.2)}
-#vol b{position:absolute;left:0;top:7px;height:2px;background:#00e5ff}
+#vol i{position:absolute;left:0;right:0;top:6px;height:4px;background:rgba(255,208,74,.15)}
+#vol b{position:absolute;left:0;top:6px;height:4px;background:#ffd04a}
 </style>
 </head>
 <body>
 
 <div id="bg" class="abs"></div>
 <div id="tint" class="abs"></div>
+<div id="lines" class="abs"></div>
 
 <div id="main" class="abs">
  <div class="mid">
   <div class="nexus">NEXUS</div>
   <div class="reborn">REBORN</div>
-  <div id="info"></div>
+  <div id="info" class="hud"></div>
  </div>
- <div id="load">
-  <div id="status">Подключение...</div>
-  <div id="bar"><div id="fill"></div></div>
+ <div id="load" class="hud">
+  <div id="loadTop"><div id="status">Подключение...</div><div id="pct">0%</div></div>
+  <div id="segs"></div>
  </div>
 </div>
 
-<div id="snd"><span id="mute">&#9835;</span> <span id="vol"><i></i><b></b></span></div>
+<div id="snd" class="hud"><span id="mute">&#9835;</span> <span id="vol"><i></i><b></b></span></div>
 
 <div id="intro" class="abs">
  <div class="mid">
@@ -125,9 +132,11 @@ function GameDetails(servername,serverurl,mapname,maxplayers,steamid,gamemode,vo
 }
 function SetFilesTotal(t){total=t;upd();}
 function SetFilesNeeded(n){needed=n;upd();}
-function upd(){if(total>0)$("fill").style.width=((total-needed)/total*100)+"%";}
+var SEG=40,segs=[];(function(){for(var i=0;i<SEG;i++){var e=document.createElement("i");e.style.width=(100/SEG-0.5)+"%";$("segs").appendChild(e);segs.push(e);}})();
+function setP(p){p=Math.max(0,Math.min(100,p));var n=Math.round(p/100*SEG);for(var i=0;i<SEG;i++)segs[i].className=i<n?"on":"";$("pct").innerHTML=Math.floor(p)+"%";}
+function upd(){if(total>0)setP((total-needed)/total*100);}
 function DownloadingFile(f){$("status").innerHTML="Загрузка: "+f.replace(/^.*[\\\/]/,"");}
-function SetStatusChanged(s){$("status").innerHTML=s;if(/Sending client info/i.test(s))$("fill").style.width="100%";}
+function SetStatusChanged(s){$("status").innerHTML=s;if(/Sending client info/i.test(s))setP(100);}
 </script>
 </body>
 </html>
