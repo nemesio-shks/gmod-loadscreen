@@ -171,7 +171,7 @@ html,body{margin:0;padding:0;width:100%;height:100%;overflow:hidden;background:#
   <div class="btn" id="bPlay">&#10074;&#10074;</div>
   <div class="btn" id="bNext">&#9654;&#9654;</div>
   <div id="vol"><div id="volTrack"><div id="volFill"></div><div id="volKnob"></div></div></div>
-  <div id="volNum">40</div>
+  <div id="volNum">15</div>
  </div>
  <div id="keys">&#8593;&#8595; громкость · M — без звука · N — след. трек</div>
 </div>
@@ -193,15 +193,10 @@ html,body{margin:0;padding:0;width:100%;height:100%;overflow:hidden;background:#
 
 <script>
 // ================= НАСТРОЙКИ =================
-var DEFAULT_VOLUME = 0.4;      // 0..1
+var DEFAULT_VOLUME = 0.15;      // 0..1
 var INTRO_MS = 4600;           // длительность интро
 var TRACKS = [
- {src:"music/t1.ogg", name:"Akon ft. Eminem — Smack That (speed up)"},
- {src:"music/t2.ogg", name:"INTERWORLD — METAMORPHOSIS"},
- {src:"music/t3.ogg", name:"BT — Kimosabe"},
- {src:"music/t4.ogg", name:"The Crystal Method — Born Too Slow"},
- {src:"music/t5.ogg", name:"Post Malone — Rockstar (slowed)"},
- {src:"music/t6.ogg", name:"Yeat — If We Being Real (slowed + reverb)"}
+ {src:"music/track.ogg", name:"Yeat — If We Being Real (slowed + reverb)"}
 ];
 var BACKGROUNDS = ["img/bg1.jpg","img/bg2.jpg","img/bg3.jpg","img/bg4.jpg","img/bg5.jpg","img/bg6.jpg","img/bg7.jpg","img/bg8.jpg"];
 var TIPS = [
@@ -251,15 +246,14 @@ setInterval(function(){var l=$("lNexus");l.className="";void l.offsetWidth;l.cla
 // ---- МУЗЫКА ----
 var audio=$("audio"),gmodVol=1,muted=false,ti=0;
 var userVol=DEFAULT_VOLUME;
-try{var sv=parseFloat(localStorage.getItem("nx_vol"));if(!isNaN(sv))userVol=sv;}catch(e){}
-// первый трек — всегда Smack That, остальные вперемешку
-var playlist=[TRACKS[0]].concat(TRACKS.slice(1).sort(function(){return Math.random()-.5;}));
+try{var sv=parseFloat(localStorage.getItem("nx_vol2"));if(!isNaN(sv))userVol=sv;}catch(e){}
+var playlist=TRACKS.slice();
 
 function applyVol(){
  var v=muted?0:userVol*gmodVol;audio.volume=Math.max(0,Math.min(1,v));
  var pc=Math.round(userVol*100);$("volFill").style.width=pc+"%";$("volKnob").style.left=pc+"%";
  $("volNum").innerHTML=muted?"OFF":pc;
- try{localStorage.setItem("nx_vol",userVol);}catch(e){}
+ try{localStorage.setItem("nx_vol2",userVol);}catch(e){}
 }
 function load(i){ti=(i+playlist.length)%playlist.length;audio.src=playlist[ti].src;$("track").innerHTML=playlist[ti].name;play();}
 function play(){try{var p=audio.play();if(p&&p["catch"])p["catch"](function(){});}catch(e){}$("player").className="";$("bPlay").innerHTML="&#10074;&#10074;";}
